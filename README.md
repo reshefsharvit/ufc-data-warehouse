@@ -48,3 +48,7 @@ dbt deps
 dbt seed
 dbt run
 ```
+
+
+## What's next?
+I will be working on presenting the data with Metabase and whatever else I find relevant
