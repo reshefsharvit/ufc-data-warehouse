@@ -1,0 +1,13 @@
+version: 2
+
+models:
+  - name: stg_fighters_about
+    tests: []
+    columns:
+      - name: fighter_id
+        tests:
+          - not_null
+          - unique
+      - name: name
+        tests:
+          - not_null

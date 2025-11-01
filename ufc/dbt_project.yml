@@ -1,0 +1,7 @@
+name: ufc
+version: 1.0.0
+profile: ufc
+
+models:
+  fighters:
+    +materialized: table

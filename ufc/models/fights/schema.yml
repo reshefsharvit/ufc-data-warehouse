@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: fact_fights
+    description: "Fact table at bout grain (one row per bout; columns include fighter1_id and fighter2_id)."
+    columns:
+      - name: bout_id
+        description: "Unique bout identifier (bout-level grain)"
+        tests:
+          - not_null
+          - unique
+      - name: fighter1_id
+        description: "First fighter in the bout"
+        tests:
+          - not_null
+      - name: fighter2_id
+        description: "Second fighter in the bout"
+        tests: []
+
+  - name: dim_fighters
+    description: "Dimension table for fighter attributes"
+    columns:
+      - name: fighter_id
+        description: "Primary key for fighters"
+        tests:
+          - not_null
+          - unique
+
+  - name: stg_fight_history
+    description: "Staging view containing raw fight history"
+    columns:
+      - name: fighter_id
+        description: "Fighter identifier"
+        tests:
+          - not_null
+
+  - name: dim_events
+    description: "Dimension table for fight events"
+    columns:
+      - name: event_id
+        description: "Unique identifier for events"
+        tests:
+          - not_null
+          - unique
