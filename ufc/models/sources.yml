@@ -4,10 +4,5 @@ sources:
   - name: fighters_data
     schema: fighters_data
     tables:
-      - name: fighters
-        
-  - name: fighters_data
-    schema: fighters_data
-    tables:
       - name: fighter_fight_history
       - name: fighters
