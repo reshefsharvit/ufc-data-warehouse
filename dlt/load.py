@@ -1,61 +1,51 @@
+import csv
+from pathlib import Path
+
 import dlt
-import json
 
-ABOUT_COLUMNS = {
-    "fighter_id": {"data_type": "text"},
-    "document":   {"data_type": "json"}   # -> JSONB in Postgres
+
+ROOT_DIR = Path(__file__).resolve().parents[1]
+DATA_DIR = ROOT_DIR / "scrape_ufc_stats-main"
+FACT_TABLES = {
+    "ufc_fight_details",
+    "ufc_fight_results",
+    "ufc_fight_stats",
 }
 
-FIGHTS_COLUMNS = {
-    "fighter_id": {"data_type": "text"},
-    "fight_history": {"data_type": "json"}  # -> JSONB in Postgres
-}
 
-@dlt.resource(
-    name="fighters",                       # table: fighters_data.fighters
-    write_disposition="replace",
-    columns=ABOUT_COLUMNS,
-    primary_key="fighter_id"               # optional but handy
-)
-def load_fighters_about():
-    with open("ufc_fighters_stats_and_records.json", "r") as f:
-        data = json.load(f)
+def table_name(path: Path) -> str:
+    stem = path.stem
+    if stem in FACT_TABLES:
+        return f"fact_{stem}"
+    return f"dim_{stem}"
 
-    for item in data:
-        about = item.get("about")
-        if about:
-            yield {
-                "fighter_id": about.get("id"),
-                "document": about
-            }
 
-@dlt.resource(
-    name="fighter_fight_history",          # table: fighters_data.fighter_fight_history
-    write_disposition="replace",
-    columns=FIGHTS_COLUMNS,
-    primary_key="fighter_id"
-)
-def load_fighters_fight_history():
-    with open("ufc_fighters_stats_and_records.json", "r") as f:
-        data = json.load(f)
+def csv_resource(path: Path):
+    @dlt.resource(name=table_name(path), write_disposition="replace")
+    def _resource():
+        with path.open(newline="", encoding="utf-8") as handle:
+            reader = csv.DictReader(handle)
+            for row in reader:
+                yield row
 
-    for item in data:
-        about = item.get("about") or {}
-        fighter_id = about.get("id")
-        history = item.get("fight_history")
-        # keep an empty {} if present but empty; skip only if missing fighter_id entirely
-        if fighter_id is not None and history is not None:
-            yield {
-                "fighter_id": fighter_id,
-                "fight_history": history
-            }
+    return _resource
 
-pipeline = dlt.pipeline(
-    pipeline_name="fighter_pipeline",
-    destination="postgres",
-    dataset_name="fighters_data"
-)
 
-# Run both resources in one go
-info = pipeline.run([load_fighters_about(), load_fighters_fight_history()])
-print(info)
+def main() -> None:
+    csv_files = sorted(DATA_DIR.glob("*.csv"))
+    if not csv_files:
+        raise SystemExit(f"No CSV files found in {DATA_DIR}")
+
+    pipeline = dlt.pipeline(
+        pipeline_name="ufc_csv",
+        destination="postgres",
+        dataset_name="ufc",
+    )
+
+    resources = [csv_resource(path) for path in csv_files]
+    load_info = pipeline.run(resources)
+    print(load_info)
+
+
+if __name__ == "__main__":
+    main()

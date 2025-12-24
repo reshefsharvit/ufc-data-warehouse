@@ -1,8 +1,12 @@
 version: 2
 
 sources:
-  - name: fighters_data
-    schema: fighters_data
+  - name: ufc
+    schema: ufc
     tables:
-      - name: fighter_fight_history
-      - name: fighters
+      - name: dim_ufc_event_details
+      - name: fact_ufc_fight_details
+      - name: fact_ufc_fight_results
+      - name: fact_ufc_fight_stats
+      - name: dim_ufc_fighter_details
+      - name: dim_ufc_fighter_tott
