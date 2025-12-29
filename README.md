@@ -4,9 +4,7 @@
 This project loads fighters and fights stats, transforms and creates views for various stat lines.
 
 # Stack
-PostgreSQL
-dbt
-dlt
+PostgreSQL, dbt, dlt, metabase
 
 
 ## Acknowledgements
@@ -19,7 +17,3 @@ Run the startup script from the repo root:
 ```bash
 ./startup.sh
 ```
-
-
-## What's next?
-I will be working on presenting the data with Metabase and whatever else I find relevant
