@@ -27,4 +27,5 @@ password: password1!
 ```
 
 ## Screenshot
+<small>Table showing title fight wins by fighter and category.</small>
 ![Title fight wins](images/screenshots/title_fight_wins.png)
