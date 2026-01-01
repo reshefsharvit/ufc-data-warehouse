@@ -19,11 +19,11 @@ Run the startup script from the repo root:
 ```
 
 ## Visualizations
-View the dashboards at localhost:3000
+View the dashboards at 
+```
+localhost:3000/http://localhost:3000/collection/root
 username: reshefsharvit21@gmail.com
 password: password1!
-```bash
-./startup.sh
 ```
 
 ## Screenshot
