@@ -363,7 +363,7 @@ SELECT
   weight_category,
   title_defenses
 FROM fighters_extracted_goat_status.mv_title_defenses
-ORDER BY weight_category, title_defenses DESC
+ORDER BY title_defenses DESC
 LIMIT 50;
 SQL
 )
