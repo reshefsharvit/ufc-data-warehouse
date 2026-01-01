@@ -38,6 +38,7 @@ docker run -it -d \
   metabase/metabase
 
 # need to allow metabase to fully initialize
+echo "allow metabase to fully initialize"
 sleep 15
 
 # 7. Initialize Metabase and create the admin user programmatically
@@ -47,4 +48,4 @@ sleep 15
 ./metabase/charts.sh > /dev/null
 
 # 9. Serve the local fighter images over HTTP
-python3 images/serve_images.py
+python3 images/serve_images.py > logs/serve_images.log 2>&1 &

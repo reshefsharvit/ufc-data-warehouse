@@ -17,3 +17,11 @@ Run the startup script from the repo root:
 ```bash
 ./startup.sh
 ```
+
+## Visualizations
+View the dashboards at localhost:3000
+username: reshefsharvit21@gmail.com
+password: password1!
+```bash
+./startup.sh
+```
