@@ -25,3 +25,6 @@ password: password1!
 ```bash
 ./startup.sh
 ```
+
+## Screenshot
+![Title fight wins](images/screenshots/title_fight_wins.png)
