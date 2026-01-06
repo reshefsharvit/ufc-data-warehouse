@@ -1,5 +1,5 @@
 # UFC data warehouse
-<img src="images/ufc_goats.png" alt="UFC GOATs" width="80%">
+<img src="images/ufc_goats.png" alt="UFC GOATs" width="45%">
 
 ## What's in here?
 This project loads fighters and fights stats, transforms and creates views for various stat lines.
