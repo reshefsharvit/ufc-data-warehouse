@@ -385,6 +385,56 @@ SELECT
       '.png'
     )
   end as fighter_image_url,
+  title_fights,
+  championship_rounds_fought
+FROM fighters_extracted_goat_status.mv_championship_rounds_fought
+ORDER BY championship_rounds_fought DESC, title_fights DESC, fighter
+LIMIT 50;
+SQL
+)
+create_card "Championship Rounds Fought (Min 5 Title Fights)" "$QUERY"
+
+QUERY=$(cat <<'SQL'
+SELECT
+  fighter,
+  case
+    when fighter is null or fighter = '' then null
+    else concat(
+      'http://localhost:8888/',
+      regexp_replace(
+        regexp_replace(lower(fighter), '[^a-z0-9]+', '_', 'g'),
+        '^_+|_+$',
+        '',
+        'g'
+      ),
+      '.png'
+    )
+  end as fighter_image_url,
+  weight_category,
+  max_consecutive_title_defenses
+FROM fighters_extracted_goat_status.mv_consecutive_title_defenses
+ORDER BY max_consecutive_title_defenses DESC, fighter, weight_category
+LIMIT 50;
+SQL
+)
+create_card "Consecutive Title Defenses by Category" "$QUERY"
+
+QUERY=$(cat <<'SQL'
+SELECT
+  fighter,
+  case
+    when fighter is null or fighter = '' then null
+    else concat(
+      'http://localhost:8888/',
+      regexp_replace(
+        regexp_replace(lower(fighter), '[^a-z0-9]+', '_', 'g'),
+        '^_+|_+$',
+        '',
+        'g'
+      ),
+      '.png'
+    )
+  end as fighter_image_url,
   clutch_wins
 FROM fighters_extracted_goat_status.mv_clutch_wins_min_10_fights
 ORDER BY clutch_wins DESC

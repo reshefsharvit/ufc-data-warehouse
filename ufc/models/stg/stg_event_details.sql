@@ -13,14 +13,28 @@ select
     event,
     url,
     location,
-    coalesce(
-        to_date(event_date_raw, 'Month DD, YYYY'),
-        to_date(event_date_raw, 'Mon DD, YYYY')
-    ) as event_date,
-    extract(
-        year from coalesce(
-            to_date(event_date_raw, 'Month DD, YYYY'),
+    case
+        when event_date_raw ~ '^[A-Za-z]{3}[[:space:]]+[0-9]{1,2},[[:space:]]+[0-9]{4}$' then
             to_date(event_date_raw, 'Mon DD, YYYY')
-        )
+        when event_date_raw ~ '^[A-Za-z]+[[:space:]]+[0-9]{1,2},[[:space:]]+[0-9]{4}$' then
+            to_date(event_date_raw, 'Month DD, YYYY')
+        when event_date_raw ~ '^[A-Za-z]{3}[[:space:]]+[0-9]{4}$' then
+            to_date(event_date_raw, 'Mon YYYY')
+        when event_date_raw ~ '^[A-Za-z]+[[:space:]]+[0-9]{4}$' then
+            to_date(event_date_raw, 'Month YYYY')
+        else null
+    end as event_date,
+    extract(
+        year from case
+            when event_date_raw ~ '^[A-Za-z]{3}[[:space:]]+[0-9]{1,2},[[:space:]]+[0-9]{4}$' then
+                to_date(event_date_raw, 'Mon DD, YYYY')
+            when event_date_raw ~ '^[A-Za-z]+[[:space:]]+[0-9]{1,2},[[:space:]]+[0-9]{4}$' then
+                to_date(event_date_raw, 'Month DD, YYYY')
+            when event_date_raw ~ '^[A-Za-z]{3}[[:space:]]+[0-9]{4}$' then
+                to_date(event_date_raw, 'Mon YYYY')
+            when event_date_raw ~ '^[A-Za-z]+[[:space:]]+[0-9]{4}$' then
+                to_date(event_date_raw, 'Month YYYY')
+            else null
+        end
     )::int as event_year
 from source

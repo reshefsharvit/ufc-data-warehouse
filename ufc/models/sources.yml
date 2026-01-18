@@ -10,3 +10,4 @@ sources:
       - name: fact_ufc_fight_stats
       - name: dim_ufc_fighter_details
       - name: dim_ufc_fighter_tott
+      - name: title_status_changes_outside_octagon

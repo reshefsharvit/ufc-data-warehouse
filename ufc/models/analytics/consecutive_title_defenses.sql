@@ -87,8 +87,7 @@ agg as (
     select
         fighter,
         weight_category,
-        max(greatest(win_streak - 1, 0)) as max_consecutive_title_defenses,
-        max(win_streak) as max_consecutive_title_wins
+        max(greatest(win_streak - 1, 0)) as max_consecutive_title_defenses
     from streaks
     group by fighter, weight_category
     having max(greatest(win_streak - 1, 0)) >= 1
@@ -96,7 +95,6 @@ agg as (
 select
     fighter,
     weight_category,
-    max_consecutive_title_defenses,
-    max_consecutive_title_wins
+    max_consecutive_title_defenses
 from agg
-order by max_consecutive_title_defenses desc, max_consecutive_title_wins desc, fighter, weight_category
+order by max_consecutive_title_defenses desc, fighter, weight_category
