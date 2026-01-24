@@ -22,4 +22,4 @@ select
     fighter,
     total_champ_days
 from agg
-order by weight_category, total_champ_days desc, fighter
+order by total_champ_days desc, weight_category, fighter

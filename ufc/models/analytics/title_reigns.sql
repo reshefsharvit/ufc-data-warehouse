@@ -314,4 +314,4 @@ select
         else 0
     end as is_active
 from reigns_final
-order by weight_category, start_date desc nulls last, fighter
+order by reign_days desc nulls last, weight_category, fighter

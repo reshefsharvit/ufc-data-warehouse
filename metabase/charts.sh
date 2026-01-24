@@ -443,4 +443,58 @@ SQL
 )
 create_card "Clutch Wins (Min 10 Fights)" "$QUERY"
 
+QUERY=$(cat <<'SQL'
+SELECT
+  fighter,
+  case
+    when fighter is null or fighter = '' then null
+    else concat(
+      'http://localhost:8888/',
+      regexp_replace(
+        regexp_replace(lower(fighter), '[^a-z0-9]+', '_', 'g'),
+        '^_+|_+$',
+        '',
+        'g'
+      ),
+      '.png'
+    )
+  end as fighter_image_url,
+  weight_category,
+  total_champ_days
+FROM fighters_extracted_goat_status.mv_total_champ_days
+ORDER BY total_champ_days DESC NULLS LAST, fighter, weight_category
+LIMIT 50;
+SQL
+)
+create_card "Total Champ Days by Category" "$QUERY"
+
+QUERY=$(cat <<'SQL'
+SELECT
+  fighter,
+  case
+    when fighter is null or fighter = '' then null
+    else concat(
+      'http://localhost:8888/',
+      regexp_replace(
+        regexp_replace(lower(fighter), '[^a-z0-9]+', '_', 'g'),
+        '^_+|_+$',
+        '',
+        'g'
+      ),
+      '.png'
+    )
+  end as fighter_image_url,
+  weight_category,
+  start_date,
+  end_date,
+  end_reason,
+  reign_days,
+  is_active
+FROM fighters_extracted_goat_status.mv_title_reigns
+ORDER BY reign_days DESC NULLS LAST, fighter, weight_category
+LIMIT 200;
+SQL
+)
+create_card "Title Reigns" "$QUERY"
+
 apply_image_settings_to_all_cards

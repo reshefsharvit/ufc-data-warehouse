@@ -47,6 +47,8 @@ sleep 15
 # 8. Initialize Metabase and create the admin user programmatically
 ./metabase/setup.sh
 
+sleep 5;
+
 # 9. Create the Metabase charts
 ./metabase/charts.sh > /dev/null
 
